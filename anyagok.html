@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+Bootstrap:
+<div class="container">
+<!--NAV MENÜ: -->
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#eletrajz">Életrajz</a>
+        </li>
+      </ul>
+    </div>  
+  </nav>
+
+<!-- RÁCS, képekkel:-->
+  <div class="row">
+      <div class="col-xl-4 col-md-6 col-12"><img src="images/1.jpg" alt="kep" class="img-thumbnail"></div>
+      <div class="col-xl-4 col-md-6 col-12"><img src="images/2.jpg" alt="kep" class="img-thumbnail"></div>
+      <div class="col-xl-4 col-md-6 col-12"><img src="images/3.jpg" alt="kep" class="img-thumbnail"></div>
+      <div class="col-xl-4 col-md-6 col-12"><img src="images/4.jpg" alt="kep" class="img-thumbnail"></div>
+      <div class="col-xl-4 col-md-6 col-12"><img src="images/5.jpg" alt="kep" class="img-thumbnail"></div>
+      <div class="col-xl-4 col-md-6 col-12"><img src="images/6.jpg" alt="kep" class="img-thumbnail"></div>
+      <!--
+      Extra small <576px
+      Small ≥ 576px
+      Medium ≥768px
+      Large ≥992px
+      Extra large ≥1200px
+      -->
+      <!-- .col- 	.col-sm- 	.col-md- 	.col-lg- 	.col-xl- ; 12: teljes szélesség, 1: 12 is elfér egymás mellett -->
+  </div>
+  
+<!-- TÁBLÁZAT: -->
+  <table class="table table-bordered table-striped table-dark table-hover table-sm">
+    <thead class="thead-light">
+    </thead>
+  </table>
+  <div class="table-responsive-sm">
+    <table class="table">
+      ...
+    </table>
+  </div>
+
+<!-- FORM: -->
+  <form>
+    <div class="form-group">
+        <label for="veznev">Vezeték név:</label>
+        <input type="text" id="veznev" class="form-control">
+    </div>
+  </form>
+  <!-- KOMBINÁLVA: -->
+  <form>
+    <div class="row">
+      <div class="col">
+        <input type="text" class="form-control" placeholder="First name">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Last name">
+      </div>
+    </div>
+  </form>
+  
+<!-- GOMB: -->
+  <button type="button" class="btn btn-primary">Primary</button>
+  <button type="button" class="btn btn-secondary">Secondary</button>
+  <button type="button" class="btn btn-success">Success</button>
+  <button type="button" class="btn btn-danger">Danger</button>
+  <button type="button" class="btn btn-warning">Warning</button>
+  <button type="button" class="btn btn-info">Info</button>
+  <button type="button" class="btn btn-light">Light</button>
+  <button type="button" class="btn btn-dark">Dark</button>
+
+<!--MARGÓK:-->
+  <pre>
+    pl.: mt-0, pt-0, p-3;
+    t, b, l, r, x, y
+  </pre>
+</div>
+
+<script type="text/javascript" >
+
+//NODEJS SZERVER:
+
+//1)
+const http = require("http");
+http.createServer((req, res) => {
+    res.statuscode = 200;//
+    res.setHeader("Content-type", "text-plain");
+    res.end("Hello World!");
+}).listen(8080);
+
+//2)
+const http = require("http");//beépített http modul importálása
+
+const hostname = "127.0.0.1"; //IP cím megadása, ebben az esetben a localhost(itt lesz megtalálható a weboldal)
+const port = "3000";//Port meghatározása, amin kommunikálni fogunk
+
+const server = http.createServer((req, res) => { //HTTP modul segítségével szerver készítése "arrowfunction"-nel
+    res.statuscode = 200;//Státuszkód megadása, jelentése: MINDEN RENDBEN
+    res.setHeader("Content-type", "text-plain");//HTTP fejrész megadása, milyen tartalom típus jelenjen meg
+    res.end("Szeretem a NodeJS");//Szöveges tartalom, ami megjelenik
+});
+
+server.listen(port, hostname, () => {
+    console.log(`A szerverünk fut a http://${hostname}:${port} címen`);//Visszajelző üzenet arról, hogy sikeresen elindítottuk a szervert!
+});
+
+
+
+//FÁJLKEZELÉS:
+const fs = require("fs");
+//Létrehozunk egy új fájlt: HA MÁR LÉZETETT A FÁJL HOZZÁFŰZZÜK AZ AKTUÁLIS TARTALMAT
+fs.appendFile("ujFile.txt", "NodeJS teszt", function (err) {
+    if (err) throw err;
+    console.log("Új fájl létrehozva")
+});
+
+//
+//KOMBINÁLT: FÁJL OLVASÁS ÉS SZERVER:
+//
+//Importálni a file system modult
+const fs = require("fs");
+
+//Importáljuk a http modult is!
+const http = require("http");
+
+
+http.createServer(function (req, res) {
+    console.log("Szerver elindult.");
+    fs.readFile("tananyag.html", "utf-8", function (err, data) {
+        if (err) {
+            console.err(err);
+            res.writeHead(500, { "Content-type": "text/plain" });
+            res.end("Hiba történ a fájl beolvasása közben");
+        }
+        else {
+            res.writeHead(200, { "Content-type": "text/html" });
+            res.write(data);
+            res.end("Sikeres adatbetoltes");
+        }
+    });
+}).listen(3000);
+
+
+
+//JS include:
+const http = require("http");
+const elsoModulom = require("./modul.js");
+http.createServer(function (req, res) {
+    res.statusCode = 200;
+    res.setHeader("Content-type", "text/plain");
+    res.write(elsoModulom.NodeKiir());
+    res.end();
+}).listen(3000);
+</script>
+<pre>
+ANGULAR:
+(1)
+angular.json:--1--
+...
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/vizsga",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.css"
+            ],
+            "scripts": [
+              "./node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
+          },
+...
+
+
+(2)
+projekten belül lévő app.module.ts: (Forms modul import):--2--
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { VizsgafeladatComponent } from './vizsgafeladat/vizsgafeladat.component';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    VizsgafeladatComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+(3)
+app-routing.module.ts (a routoláshoz):--3--
+csak a lényeges rész:
+const routes: Routes = [
+  { path: "vizsgafeladat", component: VizsgafeladatComponent },
+  { path: "", redirectTo: "/vizsgafeladat", pathMatch: "full" },
+  { path: "**", component: VizsgafeladatComponent }
+];
+
+
+
+(4)
+Minden a componensen belül:--4--
+
+"HTML":
+<h1>Angular modul megoldása</h1>
+
+<div class="form-group">
+    <label for="testtomeg">Add meg a súlyod kilógrammban:</label>
+    <input type="number" id="testtomeg" class="form-control" [(ngModel)]="testtomeg">
+</div>
+
+<div class="form-group">
+    <label for="magassag">Add meg a magasságod méterben:</label>
+    <input type="number" id="magassag" class="form-control" [(ngModel)]="magassag">
+</div>
+<button type="button" class="btn btn-success w-100 my-2" (click)="EredmenyMentes()">Eredmény mentése</button>
+<p>A megadott érték alapján a testtömeg index: {{testtomeg/(magassag*magassag)}}</p>
+
+<ul>
+    <li *ngFor="let eredmeny of eredmenyek">
+        {{eredmeny}}
+    </li>
+</ul>
+</pre>
+
+TS:
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-vizsgafeladat',
+  templateUrl: './vizsgafeladat.component.html',
+  styleUrl: './vizsgafeladat.component.css'
+})
+export class VizsgafeladatComponent {
+  testtomeg!: number;
+  magassag!: number;
+
+  eredmenyek: string[] = [];
+  EredmenyMentes(): void {
+    this.eredmenyek.push(`Az ${this.testtomeg}kg testsúlyú és  ${this.magassag}m magasságú ember testtömeg indexe: ${this.testtomeg / (this.magassag * this.magassag)}`);
+  }
+}
+
+
+MÁSIK TS, komplexebb, get-es függvény, ilyesmi:
+import { Component } from '@angular/core';
+import { __runInitializers } from 'tslib';
+
+@Component({
+  selector: 'app-feladat',
+  templateUrl: './feladat.component.html',
+  styleUrl: './feladat.component.css'
+})
+export class FeladatComponent {
+  vizsgaltErtek!: number;
+  eredmenyek: string[] = [];
+  EredmenyMentes() {
+    if (this.PrimE(this.vizsgaltErtek)) {
+      this.eredmenyek.push(`A(z) ${this.vizsgaltErtek}: prím`)
+    }
+    else {
+      this.eredmenyek.push(`A(z) ${this.vizsgaltErtek}: NEM prím`)
+    }
+  }
+
+  PrimE(vizsgaltElem: number): boolean {
+    let osztokSzama = 0;
+    for (let i = 1; i <= vizsgaltElem; i++) {
+      if (vizsgaltElem % i == 0) {
+        osztokSzama++;
+      }
+    }
+    if (osztokSzama == 2) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  get EredmenyKiir(): string {
+    if (this.PrimE(this.vizsgaltErtek)) {
+      return "prím";
+    }
+    else {
+      return "NEM prím";
+    }
+  }
+}
